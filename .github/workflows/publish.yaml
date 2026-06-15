@@ -89,7 +89,7 @@ jobs:
 
       - name: Publish ${{ matrix.distro_name }}_${{ matrix.distro_version }}
         if: github.event.inputs.image == 'all' || github.event.inputs.image == format('{0}_{1}', matrix.distro_name, matrix.distro_version)
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./${{ matrix.distro_name }}_${{ matrix.distro_version }}.Dockerfile
@@ -102,7 +102,7 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.distro_name }}_${{ matrix.distro_version }}
 
       - name: Publish ${{ matrix.distro_name }}_${{ matrix.distro_version }}-extra
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./${{ matrix.distro_name }}_${{ matrix.distro_version }}.Dockerfile
