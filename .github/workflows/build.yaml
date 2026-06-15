@@ -38,6 +38,7 @@ on:
           - debian_13
           - ubuntu_22.04
           - ubuntu_24.04
+          - ubuntu_26.04
 
 jobs:
 
@@ -73,6 +74,8 @@ jobs:
               - ubuntu_22.04.Dockerfile
             ubuntu_24_04:
               - ubuntu_24.04.Dockerfile
+            ubuntu_26_04:
+              - ubuntu_26.04.Dockerfile
             workflow:
               - .github/workflows/build.yaml
 
@@ -94,7 +97,8 @@ jobs:
                 {"distro_name": "debian", "distro_version": "12"},
                 {"distro_name": "debian", "distro_version": "13"},
                 {"distro_name": "ubuntu", "distro_version": "22.04"},
-                {"distro_name": "ubuntu", "distro_version": "24.04"}
+                {"distro_name": "ubuntu", "distro_version": "24.04"},
+                {"distro_name": "ubuntu", "distro_version": "26.04"}
               ]')
             else
               NAME="${IMAGE%_*}"
@@ -110,6 +114,7 @@ jobs:
             [[ "${{ steps.changed.outputs.debian_13_any_changed }}" == "true" ]] && MATRIX=$(jq -c '. + [{"distro_name":"debian","distro_version":"13"}]' <<<"$MATRIX")
             [[ "${{ steps.changed.outputs.ubuntu_22_04_any_changed }}" == "true" ]] && MATRIX=$(jq -c '. + [{"distro_name":"ubuntu","distro_version":"22.04"}]' <<<"$MATRIX")
             [[ "${{ steps.changed.outputs.ubuntu_24_04_any_changed }}" == "true" ]] && MATRIX=$(jq -c '. + [{"distro_name":"ubuntu","distro_version":"24.04"}]' <<<"$MATRIX")
+            [[ "${{ steps.changed.outputs.ubuntu_26_04_any_changed }}" == "true" ]] && MATRIX=$(jq -c '. + [{"distro_name":"ubuntu","distro_version":"26.04"}]' <<<"$MATRIX")
           fi
           echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
         shell: bash

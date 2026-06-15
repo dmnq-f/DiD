@@ -27,6 +27,7 @@ This repository provides Docker images with Docker CE pre-installed and configur
 - **[ghcr.io/dmnq-f/did-ubuntu](https://github.com/dmnq-f/DiD/pkgs/container/did-ubuntu)**:
   - Ubuntu 22.04 LTS (Jammy Jellyfish)
   - Ubuntu 24.04 LTS (Noble Numbat)
+  - Ubuntu 26.04 LTS (Resolute Raccoon)
 
 ## Variants
 
