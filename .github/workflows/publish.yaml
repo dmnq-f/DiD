@@ -92,7 +92,7 @@ jobs:
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Publish ${{ matrix.distro_name }}_${{ matrix.distro_version }}
         if: github.event.inputs.image == 'all' || github.event.inputs.image == format('{0}_{1}', matrix.distro_name, matrix.distro_version)
