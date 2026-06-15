@@ -2,7 +2,11 @@
 name: Publishing
 
 env:
-  DOCKERHUB_NAMESPACE: dfuchs
+  IMAGE_NAMESPACE: ghcr.io/${{ github.repository_owner }}
+
+permissions:
+  contents: read
+  packages: write
 
 on:
   workflow_dispatch:
@@ -75,11 +79,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Login to Docker Hub
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
         with:
-          username: ${{ env.DOCKERHUB_NAMESPACE }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -96,9 +101,12 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ${{ env.DOCKERHUB_NAMESPACE }}/did-${{ matrix.distro_name }}:${{ matrix.distro_version }}
-            ${{ matrix.distro_version == fromJson(needs.matrix-setup.outputs.max_versions)[matrix.distro_name] && format('{0}/did-{1}:latest', env.DOCKERHUB_NAMESPACE, matrix.distro_name) || '' }}
-            ${{ matrix.codename != '' && format('{0}/did-{1}:{2}', env.DOCKERHUB_NAMESPACE, matrix.distro_name, matrix.codename) || '' }}
+            ${{ env.IMAGE_NAMESPACE }}/did-${{ matrix.distro_name }}:${{ matrix.distro_version }}
+            ${{ matrix.distro_version == fromJson(needs.matrix-setup.outputs.max_versions)[matrix.distro_name] && format('{0}/did-{1}:latest', env.IMAGE_NAMESPACE, matrix.distro_name) || '' }}
+            ${{ matrix.codename != '' && format('{0}/did-{1}:{2}', env.IMAGE_NAMESPACE, matrix.distro_name, matrix.codename) || '' }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.description=${{ github.event.repository.description }}
           cache-from: type=gha,scope=${{ matrix.distro_name }}_${{ matrix.distro_version }}
 
       - name: Publish ${{ matrix.distro_name }}_${{ matrix.distro_version }}-extra
@@ -111,7 +119,10 @@ jobs:
           build-args: |
             EXTRA_PACKAGES=true
           tags: |
-            ${{ env.DOCKERHUB_NAMESPACE }}/did-${{ matrix.distro_name }}:${{ matrix.distro_version }}-extra
-            ${{ matrix.distro_version == fromJson(needs.matrix-setup.outputs.max_versions)[matrix.distro_name] && format('{0}/did-{1}:latest-extra', env.DOCKERHUB_NAMESPACE, matrix.distro_name) || '' }}
-            ${{ matrix.codename != '' && format('{0}/did-{1}:{2}-extra', env.DOCKERHUB_NAMESPACE, matrix.distro_name, matrix.codename) || '' }}
+            ${{ env.IMAGE_NAMESPACE }}/did-${{ matrix.distro_name }}:${{ matrix.distro_version }}-extra
+            ${{ matrix.distro_version == fromJson(needs.matrix-setup.outputs.max_versions)[matrix.distro_name] && format('{0}/did-{1}:latest-extra', env.IMAGE_NAMESPACE, matrix.distro_name) || '' }}
+            ${{ matrix.codename != '' && format('{0}/did-{1}:{2}-extra', env.IMAGE_NAMESPACE, matrix.distro_name, matrix.codename) || '' }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.description=${{ github.event.repository.description }}
           cache-from: type=gha,scope=${{ matrix.distro_name }}_${{ matrix.distro_version }}-extra

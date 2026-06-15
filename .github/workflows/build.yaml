@@ -2,7 +2,7 @@
 name: CI Builds
 
 env:
-  DOCKERHUB_NAMESPACE: dfuchs
+  IMAGE_NAMESPACE: ghcr.io/${{ github.repository_owner }}
 
 permissions:
   actions: write
@@ -138,7 +138,7 @@ jobs:
           file: ./${{ matrix.distro_name }}_${{ matrix.distro_version }}.Dockerfile
           push: false
           platforms: linux/amd64,linux/arm64
-          tags: ${{ env.DOCKERHUB_NAMESPACE }}/did-${{ matrix.distro_name }}:candidate-${{ github.sha }}
+          tags: ${{ env.IMAGE_NAMESPACE }}/did-${{ matrix.distro_name }}:candidate-${{ github.sha }}
           cache-from: type=gha,scope=${{ matrix.distro_name }}_${{ matrix.distro_version }}
           cache-to: type=gha,mode=max,scope=${{ matrix.distro_name }}_${{ matrix.distro_version }}
 
@@ -151,7 +151,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             EXTRA_PACKAGES=true
-          tags: ${{ env.DOCKERHUB_NAMESPACE }}/did-${{ matrix.distro_name }}:candidate-extra-${{ github.sha }}
+          tags: ${{ env.IMAGE_NAMESPACE }}/did-${{ matrix.distro_name }}:candidate-extra-${{ github.sha }}
           cache-from: type=gha,scope=${{ matrix.distro_name }}_${{ matrix.distro_version }}-extra
           cache-to: type=gha,mode=max,scope=${{ matrix.distro_name }}_${{ matrix.distro_version }}-extra
 

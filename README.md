@@ -10,21 +10,21 @@ This repository provides Docker images with Docker CE pre-installed and configur
 - These containers require `--privileged` mode to run Docker inside Docker properly.
 - All images contain systemd as the configured init system
 - Published platform builds include *linux/amd64* and *linux/arm64*
-- The *latest* and *latest-extra* tags on Docker Hub will always point to the latest version of that distro within the corresponding repository.
+- The *latest* and *latest-extra* tags on the GitHub Container Registry (GHCR) will always point to the latest version of that distro within the corresponding repository.
 
 ## Available Images
 
-- **[dfuchs/did-alma](https://hub.docker.com/r/dfuchs/did-alma)**:
+- **[ghcr.io/dmnq-f/did-alma](https://github.com/dmnq-f/DiD/pkgs/container/did-alma)**:
   - AlmaLinux 8
   - AlmaLinux 9
   - AlmaLinux 10
 
-- **[dfuchs/did-debian](https://hub.docker.com/r/dfuchs/did-debian)**:
+- **[ghcr.io/dmnq-f/did-debian](https://github.com/dmnq-f/DiD/pkgs/container/did-debian)**:
   - Debian 11 (Bullseye)
   - Debian 12 (Bookworm)
   - Debian 13 (Trixie)
 
-- **[dfuchs/did-ubuntu](https://hub.docker.com/r/dfuchs/did-ubuntu)**:
+- **[ghcr.io/dmnq-f/did-ubuntu](https://github.com/dmnq-f/DiD/pkgs/container/did-ubuntu)**:
   - Ubuntu 22.04 LTS (Jammy Jellyfish)
   - Ubuntu 24.04 LTS (Noble Numbat)
 
@@ -46,6 +46,6 @@ In most cases, they'd be used in existing pipelines or tooling as a base image (
 To manually run a container:
 
 ```bash
-docker pull dfuchs/did-ubuntu:24.04
-docker run -d --privileged --name my-did-container dfuchs/did-ubuntu:24.04
+docker pull ghcr.io/dmnq-f/did-ubuntu:24.04
+docker run -d --privileged --name my-did-container ghcr.io/dmnq-f/did-ubuntu:24.04
 ```
