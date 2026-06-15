@@ -1,4 +1,4 @@
-FROM almalinux/9-init:9.7
+FROM almalinux/9-init:9.8
 LABEL org.opencontainers.image.authors="Dominique Fuchs"
 
 ARG EXTRA_PACKAGES=false
