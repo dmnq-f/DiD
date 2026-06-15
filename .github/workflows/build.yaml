@@ -69,9 +69,9 @@ jobs:
               - debian_12.Dockerfile
             debian_13:
               - debian_13.Dockerfile
-            ubuntu_22.04:
+            ubuntu_22_04:
               - ubuntu_22.04.Dockerfile
-            ubuntu_24.04:
+            ubuntu_24_04:
               - ubuntu_24.04.Dockerfile
             workflow:
               - .github/workflows/build.yaml
